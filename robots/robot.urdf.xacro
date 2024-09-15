@@ -1,0 +1,149 @@
+<?xml version="1.0" ?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="./../urdf/skratch_base/skratch_top_base.urdf.xacro"/> 
+    <xacro:include filename="./../urdf/skratch_base/skratch_bottom_base.urdf.xacro"/>
+    <xacro:include filename="./../urdf/skratch_base/skratch_wheel_support.urdf.xacro"/>
+    <xacro:include filename="./../urdf/skratch_wheels/skratch_wheel_hub.urdf.xacro"/>
+    <xacro:include filename="./../urdf/skratch_wheels/skratch_wheel.urdf.xacro"/>
+
+    <link name="base_link">
+    </link>
+    <xacro:skratch_top_base name="left_skratch_top_base"/>
+    <joint name="base_joint" type="fixed">
+        <origin xyz="0.0 -0.005 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="left_skratch_top_base"/>
+    </joint>
+
+    <xacro:skratch_top_base name="right_skratch_top_base"/>
+    <joint name="frame_joint" type="fixed">
+        <origin xyz="0.0 0.003 0.0" rpy="0.0 0.0 3.14"/>
+        <parent link="base_link"/>
+        <child link="right_skratch_top_base"/>
+    </joint>
+
+    <xacro:skratch_bottom_base name="left_skratch_bottom_base"/>
+    <joint name="left_skratch_bottom_base_joint" type="fixed">
+        <origin xyz="0.0 -0.099 -0.138" rpy="3.14 0.0 0.0"/>
+        <parent link="left_skratch_top_base"/>
+        <child link="left_skratch_bottom_base"/>
+    </joint>
+
+    <xacro:skratch_bottom_base name="right_skratch_bottom_base"/>
+    <joint name="right_skratch_bottom_base_joint" type="fixed">
+        <origin xyz="0.0 -0.099 -0.138" rpy="3.14 0.0 0.0"/>
+        <parent link="right_skratch_top_base"/>
+        <child link="right_skratch_bottom_base"/>
+    </joint>
+
+    <xacro:skratch_wheel_support name="left_skratch_wheel_support"/> 
+    <joint name="left_skratch_wheel_support_joint" type="fixed">
+        <origin xyz="0.0 0.0 -0.1022" rpy="0.0 0.0 0.0"/>
+        <parent link="left_skratch_bottom_base"/>
+        <child link="left_skratch_wheel_support"/>
+    </joint>
+
+    <xacro:skratch_wheel_support name="right_skratch_wheel_support"/>
+    <joint name="right_skratch_wheel_support_joint" type="fixed">
+        <origin xyz="0.0 0.0 -0.1022" rpy="0.0 0.0 0.0"/>
+        <parent link="right_skratch_bottom_base"/>
+        <child link="right_skratch_wheel_support"/>
+    </joint>
+
+    <xacro:skratch_wheel_hub name="front_left_skratch_wheel_hub"/>
+    <joint name="front_left_skratch_wheel_hub_joint" type="continuous">
+        <origin xyz="0.2 0.0 0.085" rpy="3.14 0.0 0.0"/>
+        <parent link="left_skratch_wheel_support"/>
+        <child link="front_left_skratch_wheel_hub"/>
+        <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+
+    <xacro:skratch_wheel name="front_left_wheel_one"/>
+    <joint name="front_left_wheel_one_joint" type="continuous">
+        <origin xyz="0.0 0.04 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="front_left_skratch_wheel_hub"/>
+        <child link="front_left_wheel_one"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+
+    <xacro:skratch_wheel name="front_left_wheel_two"/>
+    <joint name="front_left_wheel_two_joint" type="continuous">
+        <origin xyz="0.0 -0.04 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="front_left_skratch_wheel_hub"/>
+        <child link="front_left_wheel_two"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+
+    <xacro:skratch_wheel_hub name="front_right_skratch_wheel_hub"/>
+    <joint name="front_right_skratch_wheel_hub_joint" type="continuous">
+        <origin xyz="-0.2 0.0 0.085" rpy="3.14 0.0 0.0"/>
+        <parent link="right_skratch_wheel_support"/>
+        <child link="front_right_skratch_wheel_hub"/>
+        <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+
+    <xacro:skratch_wheel name="front_right_wheel_one"/>
+    <joint name="front_right_wheel_one_joint" type="continuous">
+        <origin xyz="0.0 0.04 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="front_right_skratch_wheel_hub"/>
+        <child link="front_right_wheel_one"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+
+    <xacro:skratch_wheel name="front_right_wheel_two"/>
+    <joint name="front_right_wheel_two_joint" type="continuous">
+        <origin xyz="0.0 -0.04 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="front_right_skratch_wheel_hub"/>
+        <child link="front_right_wheel_two"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+
+    <xacro:skratch_wheel_hub name="rear_left_skratch_wheel_hub"/>
+    <joint name="rear_left_skratch_wheel_hub_joint" type="continuous">
+        <origin xyz="-0.2 0.0 0.085" rpy="3.14 0.0 0.0"/>
+        <parent link="left_skratch_wheel_support"/>
+        <child link="rear_left_skratch_wheel_hub"/>
+        <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+
+    <xacro:skratch_wheel name="rear_left_wheel_one"/>
+    <joint name="rear_left_wheel_one_joint" type="continuous">
+        <origin xyz="0.0 0.04 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="rear_left_skratch_wheel_hub"/>
+        <child link="rear_left_wheel_one"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+
+    <xacro:skratch_wheel name="rear_left_wheel_two"/>
+    <joint name="rear_left_wheel_two_joint" type="continuous">
+        <origin xyz="0.0 -0.04 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="rear_left_skratch_wheel_hub"/>
+        <child link="rear_left_wheel_two"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+
+    <xacro:skratch_wheel_hub name="rear_right_skratch_wheel_hub"/>
+    <joint name="rear_right_skratch_wheel_hub_joint" type="continuous">
+        <origin xyz="0.2 0.0 0.085" rpy="3.14 0.0 0.0"/>
+        <parent link="right_skratch_wheel_support"/>
+        <child link="rear_right_skratch_wheel_hub"/>
+        <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+
+    <xacro:skratch_wheel name="rear_right_wheel_one"/>
+    <joint name="rear_right_wheel_one_joint" type="continuous">
+        <origin xyz="0.0 0.04 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="rear_right_skratch_wheel_hub"/>
+        <child link="rear_right_wheel_one"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+
+    <xacro:skratch_wheel name="rear_right_wheel_two"/>
+    <joint name="rear_right_wheel_two_joint" type="continuous">
+        <origin xyz="0.0 -0.04 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="rear_right_skratch_wheel_hub"/>
+        <child link="rear_right_wheel_two"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+
+</robot>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="skratch_bottom_base" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="skratch_bottom_base" params="name">
+        <link name="${name}">
+            <inertial>
+                <origin xyz="-7.988456828410611e-16 0.012838329911753484 -0.10681866837070077" rpy="0.0 -0.0 0.0" />
+                <mass value="1.3183969682231969" />
+                <inertia ixx="0.006262100592744672" iyy="0.01495357244841754" izz="0.010505769120862037" ixy="-3.366486926680768e-17" iyz="0.0006352560561664316" ixz="-2.929797944107108e-16" />
+            </inertial>
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <mesh filename="package://skratch_description/meshes/skratch_base/skratch_bottom_base.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <mesh filename="package://skratch_description/meshes/skratch_base/skratch_bottom_base.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+</robot>

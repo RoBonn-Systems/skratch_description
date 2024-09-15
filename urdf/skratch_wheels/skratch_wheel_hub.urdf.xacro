@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="skratch_wheel_hub" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="skratch_wheel_hub" params="name">
+        <link name="${name}">
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 -0.0 0.0" />
+                <mass value="10" />
+                <inertia ixx="0.0904817" iyy="0.0904817" izz="0.0904817" ixy="0.0" iyz="0.0" ixz="0.0" />
+            </inertial>
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <mesh filename="package://skratch_description/meshes/skratch_wheel/kelo_drive_base.stl" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <mesh filename="package://skratch_description/meshes/skratch_wheel/kelo_drive_base.stl" scale="1 1 1"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+</robot>
