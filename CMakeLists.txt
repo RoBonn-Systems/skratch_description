@@ -23,7 +23,7 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY controller meshes robots urdf
+  DIRECTORY meshes robots urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
