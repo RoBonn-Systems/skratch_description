@@ -1,24 +1,32 @@
 <?xml version="1.0" ?>
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:include filename="./../urdf/skratch_base/skratch_top_base.urdf.xacro"/> 
-    <xacro:include filename="./../urdf/skratch_base/skratch_bottom_base.urdf.xacro"/>
-    <xacro:include filename="./../urdf/skratch_base/skratch_wheel_support.urdf.xacro"/>
-    <xacro:include filename="./../urdf/skratch_wheels/skratch_wheel_hub.urdf.xacro"/>
-    <xacro:include filename="./../urdf/skratch_wheels/skratch_wheel.urdf.xacro"/>
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_base/skratch_top_base.urdf.xacro"/> 
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_base/skratch_bottom_base.urdf.xacro"/>
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_base/skratch_wheel_support.urdf.xacro"/>
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_wheels/skratch_wheel_hub.urdf.xacro"/>
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_wheels/skratch_wheel.urdf.xacro"/>
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_macro.ros2_control.xacro" />
 
-    <link name="base_link">
+    <xacro:arg name="robot_name" default=""/>                   <!-- used by the launch system -->
+    <xacro:arg name="sim_gazebo" default="false"/>              <!-- used by the launch system (gazebo "classic")-->
+    <xacro:arg name="sim_gz" default="false"/>                  <!-- used by the launch system (latest version of gazebo) -->
+    <xacro:arg name="controllers" default=""/>                  <!-- used by the launch system -->
+    <xacro:property name="namespace" default="$(arg robot_name)"/>
+    <xacro:property name="prefix" default="${namespace}_" />
+
+    <link name="${prefix}base_link">
     </link>
     <xacro:skratch_top_base name="left_skratch_top_base"/>
     <joint name="base_joint" type="fixed">
         <origin xyz="0.0 -0.005 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="base_link"/>
+        <parent link="${prefix}base_link"/>
         <child link="left_skratch_top_base"/>
     </joint>
 
     <xacro:skratch_top_base name="right_skratch_top_base"/>
     <joint name="frame_joint" type="fixed">
         <origin xyz="0.0 0.003 0.0" rpy="0.0 0.0 3.14"/>
-        <parent link="base_link"/>
+        <parent link="${prefix}base_link"/>
         <child link="right_skratch_top_base"/>
     </joint>
 
@@ -145,5 +153,30 @@
         <child link="rear_right_wheel_two"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
+
+
+    <xacro:if value="$(arg sim_gazebo)">
+        <xacro:macro_ros2_control name="GazeboSystem" plugin="gazebo_ros2_control/GazeboSystem"/>
+        <gazebo>
+            <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+                <parameters>$(arg controllers)</parameters>
+                <ros>
+                    <namespace>${namespace}</namespace>
+                </ros>
+            </plugin>
+        </gazebo>
+    </xacro:if>
+
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_ros2_control name="IgnitionSystem" plugin="ign_ros2_control/IgnitionSystem"/>
+        <gazebo>
+            <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+                <parameters>$(arg controllers)</parameters>
+                <ros>
+                    <namespace>${namespace}</namespace>
+                </ros>
+            </plugin>
+        </gazebo>
+    </xacro:if>
 
 </robot>
