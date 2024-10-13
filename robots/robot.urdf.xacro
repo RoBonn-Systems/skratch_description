@@ -7,6 +7,7 @@
     <xacro:include filename="$(find skratch_description)/urdf/skratch_wheels/skratch_wheel.urdf.xacro"/>
     <xacro:include filename="$(find skratch_description)/urdf/skratch_macro.ros2_control.xacro" />
     <xacro:include filename="$(find skratch_description)/urdf/skratch_macro.imu_gazebo.xacro" />
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_macro.imu_gz.xacro" />
 
     <xacro:arg name="robot_name" default=""/>                   <!-- used by the launch system -->
     <xacro:arg name="sim_gazebo" default="false"/>              <!-- used by the launch system (gazebo "classic")-->
@@ -70,6 +71,9 @@
     <xacro:if value="$(arg sim_gazebo)">
         <xacro:macro_imu_gazebo name="front_left_wheel_imu" parent_link="front_left_wheel_hub" namespace="${namespace}" />
     </xacro:if>
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_imu_gz name="front_left_wheel_imu" parent_link="front_left_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
 
     <xacro:skratch_wheel name="front_left_wheel_one"/>
     <joint name="front_left_wheel_one_joint" type="continuous">
@@ -97,6 +101,9 @@
 
     <xacro:if value="$(arg sim_gazebo)">
         <xacro:macro_imu_gazebo name="front_right_wheel_imu" parent_link="front_right_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_imu_gz name="front_right_wheel_imu" parent_link="front_right_wheel_hub" namespace="${namespace}" />
     </xacro:if>
 
     <xacro:skratch_wheel name="front_right_wheel_one"/>
@@ -126,6 +133,9 @@
     <xacro:if value="$(arg sim_gazebo)">
         <xacro:macro_imu_gazebo name="rear_left_wheel_imu" parent_link="rear_left_wheel_hub" namespace="${namespace}" />
     </xacro:if>
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_imu_gz name="rear_left_wheel_imu" parent_link="rear_left_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
 
     <xacro:skratch_wheel name="rear_left_wheel_one"/>
     <joint name="rear_left_wheel_one_joint" type="continuous">
@@ -152,7 +162,10 @@
     </joint>
 
     <xacro:if value="$(arg sim_gazebo)">
-        <xacro:macro_imu_gazebo name="rear_right_wheel_imu" parent_link="rear_right_wheel_hub" namespace="${namespace}" />
+        <xacro:macro_imu_gz name="rear_right_wheel_imu" parent_link="rear_right_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_imu_gz name="rear_right_wheel_imu" parent_link="rear_right_wheel_hub" namespace="${namespace}" />
     </xacro:if>
 
     <xacro:skratch_wheel name="rear_right_wheel_one"/>
