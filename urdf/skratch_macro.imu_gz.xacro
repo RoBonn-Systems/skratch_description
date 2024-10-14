@@ -7,9 +7,6 @@
 
     <xacro:imu name="${name}" parent_link="${parent_link}" />
 
-    <!-- For details on IMU sensor on gazebo "gz"-->
-    <!-- See: https://gazebosim.org/docs/fortress/sensors/#imu-sensor -->
-
     <gazebo reference="${name}_link"> <!-- IMPORTANT!  it needs to be the same as the link name -->
       <gravity>true</gravity>
       <sensor name="${name}" type="imu">
