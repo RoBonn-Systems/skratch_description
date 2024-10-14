@@ -162,7 +162,7 @@
     </joint>
 
     <xacro:if value="$(arg sim_gazebo)">
-        <xacro:macro_imu_gz name="rear_right_wheel_imu" parent_link="rear_right_wheel_hub" namespace="${namespace}" />
+        <xacro:macro_imu_gazebo name="rear_right_wheel_imu" parent_link="rear_right_wheel_hub" namespace="${namespace}" />
     </xacro:if>
     <xacro:if value="$(arg sim_gz)">
         <xacro:macro_imu_gz name="rear_right_wheel_imu" parent_link="rear_right_wheel_hub" namespace="${namespace}" />
