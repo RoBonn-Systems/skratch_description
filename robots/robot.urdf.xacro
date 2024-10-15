@@ -6,6 +6,8 @@
     <xacro:include filename="$(find skratch_description)/urdf/skratch_wheels/skratch_wheel_hub.urdf.xacro"/>
     <xacro:include filename="$(find skratch_description)/urdf/skratch_wheels/skratch_wheel.urdf.xacro"/>
     <xacro:include filename="$(find skratch_description)/urdf/skratch_macro.ros2_control.xacro" />
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_macro.imu_gazebo.xacro" />
+    <xacro:include filename="$(find skratch_description)/urdf/skratch_macro.imu_gz.xacro" />
 
     <xacro:arg name="robot_name" default=""/>                   <!-- used by the launch system -->
     <xacro:arg name="sim_gazebo" default="false"/>              <!-- used by the launch system (gazebo "classic")-->
@@ -16,60 +18,67 @@
 
     <link name="${prefix}base_link">
     </link>
-    <xacro:skratch_top_base name="left_skratch_top_base"/>
+    <xacro:skratch_top_base name="left_top_base"/>
     <joint name="base_joint" type="fixed">
         <origin xyz="0.0 -0.005 0.0" rpy="0.0 0.0 0.0"/>
         <parent link="${prefix}base_link"/>
-        <child link="left_skratch_top_base"/>
+        <child link="left_top_base"/>
     </joint>
 
-    <xacro:skratch_top_base name="right_skratch_top_base"/>
+    <xacro:skratch_top_base name="right_top_base"/>
     <joint name="frame_joint" type="fixed">
         <origin xyz="0.0 0.003 0.0" rpy="0.0 0.0 3.14"/>
         <parent link="${prefix}base_link"/>
-        <child link="right_skratch_top_base"/>
+        <child link="right_top_base"/>
     </joint>
 
-    <xacro:skratch_bottom_base name="left_skratch_bottom_base"/>
-    <joint name="left_skratch_bottom_base_joint" type="fixed">
+    <xacro:skratch_bottom_base name="left_bottom_base"/>
+    <joint name="left_bottom_base_joint" type="fixed">
         <origin xyz="0.0 -0.099 -0.138" rpy="3.14 0.0 0.0"/>
-        <parent link="left_skratch_top_base"/>
-        <child link="left_skratch_bottom_base"/>
+        <parent link="left_top_base"/>
+        <child link="left_bottom_base"/>
     </joint>
 
-    <xacro:skratch_bottom_base name="right_skratch_bottom_base"/>
-    <joint name="right_skratch_bottom_base_joint" type="fixed">
+    <xacro:skratch_bottom_base name="right_bottom_base"/>
+    <joint name="right_bottom_base_joint" type="fixed">
         <origin xyz="0.0 -0.099 -0.138" rpy="3.14 0.0 0.0"/>
-        <parent link="right_skratch_top_base"/>
-        <child link="right_skratch_bottom_base"/>
+        <parent link="right_top_base"/>
+        <child link="right_bottom_base"/>
     </joint>
 
-    <xacro:skratch_wheel_support name="left_skratch_wheel_support"/> 
-    <joint name="left_skratch_wheel_support_joint" type="fixed">
+    <xacro:skratch_wheel_support name="left_wheel_support"/> 
+    <joint name="left_wheel_support_joint" type="fixed">
         <origin xyz="0.0 0.0 -0.1022" rpy="0.0 0.0 0.0"/>
-        <parent link="left_skratch_bottom_base"/>
-        <child link="left_skratch_wheel_support"/>
+        <parent link="left_bottom_base"/>
+        <child link="left_wheel_support"/>
     </joint>
 
-    <xacro:skratch_wheel_support name="right_skratch_wheel_support"/>
-    <joint name="right_skratch_wheel_support_joint" type="fixed">
+    <xacro:skratch_wheel_support name="right_wheel_support"/>
+    <joint name="right_wheel_support_joint" type="fixed">
         <origin xyz="0.0 0.0 -0.1022" rpy="0.0 0.0 0.0"/>
-        <parent link="right_skratch_bottom_base"/>
-        <child link="right_skratch_wheel_support"/>
+        <parent link="right_bottom_base"/>
+        <child link="right_wheel_support"/>
     </joint>
 
-    <xacro:skratch_wheel_hub name="front_left_skratch_wheel_hub"/>
-    <joint name="front_left_skratch_wheel_hub_joint" type="continuous">
+    <xacro:skratch_wheel_hub name="front_left_wheel_hub"/>
+    <joint name="front_left_wheel_hub_joint" type="continuous">
         <origin xyz="0.2 0.0 0.085" rpy="3.14 0.0 0.0"/>
-        <parent link="left_skratch_wheel_support"/>
-        <child link="front_left_skratch_wheel_hub"/>
+        <parent link="left_wheel_support"/>
+        <child link="front_left_wheel_hub"/>
         <axis xyz="0.0 0.0 1.0"/>
     </joint>
+
+    <xacro:if value="$(arg sim_gazebo)">
+        <xacro:macro_imu_gazebo name="front_left_wheel_imu" parent_link="front_left_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_imu_gz name="front_left_wheel_imu" parent_link="front_left_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
 
     <xacro:skratch_wheel name="front_left_wheel_one"/>
     <joint name="front_left_wheel_one_joint" type="continuous">
         <origin xyz="0.0 0.04 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="front_left_skratch_wheel_hub"/>
+        <parent link="front_left_wheel_hub"/>
         <child link="front_left_wheel_one"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
@@ -77,23 +86,30 @@
     <xacro:skratch_wheel name="front_left_wheel_two"/>
     <joint name="front_left_wheel_two_joint" type="continuous">
         <origin xyz="0.0 -0.04 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="front_left_skratch_wheel_hub"/>
+        <parent link="front_left_wheel_hub"/>
         <child link="front_left_wheel_two"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
 
-    <xacro:skratch_wheel_hub name="front_right_skratch_wheel_hub"/>
-    <joint name="front_right_skratch_wheel_hub_joint" type="continuous">
+    <xacro:skratch_wheel_hub name="front_right_wheel_hub"/>
+    <joint name="front_right_wheel_hub_joint" type="continuous">
         <origin xyz="-0.2 0.0 0.085" rpy="3.14 0.0 0.0"/>
-        <parent link="right_skratch_wheel_support"/>
-        <child link="front_right_skratch_wheel_hub"/>
+        <parent link="right_wheel_support"/>
+        <child link="front_right_wheel_hub"/>
         <axis xyz="0.0 0.0 1.0"/>
     </joint>
+
+    <xacro:if value="$(arg sim_gazebo)">
+        <xacro:macro_imu_gazebo name="front_right_wheel_imu" parent_link="front_right_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_imu_gz name="front_right_wheel_imu" parent_link="front_right_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
 
     <xacro:skratch_wheel name="front_right_wheel_one"/>
     <joint name="front_right_wheel_one_joint" type="continuous">
         <origin xyz="0.0 0.04 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="front_right_skratch_wheel_hub"/>
+        <parent link="front_right_wheel_hub"/>
         <child link="front_right_wheel_one"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
@@ -101,23 +117,30 @@
     <xacro:skratch_wheel name="front_right_wheel_two"/>
     <joint name="front_right_wheel_two_joint" type="continuous">
         <origin xyz="0.0 -0.04 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="front_right_skratch_wheel_hub"/>
+        <parent link="front_right_wheel_hub"/>
         <child link="front_right_wheel_two"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
 
-    <xacro:skratch_wheel_hub name="rear_left_skratch_wheel_hub"/>
-    <joint name="rear_left_skratch_wheel_hub_joint" type="continuous">
+    <xacro:skratch_wheel_hub name="rear_left_wheel_hub"/>
+    <joint name="rear_left_wheel_hub_joint" type="continuous">
         <origin xyz="-0.2 0.0 0.085" rpy="3.14 0.0 0.0"/>
-        <parent link="left_skratch_wheel_support"/>
-        <child link="rear_left_skratch_wheel_hub"/>
+        <parent link="left_wheel_support"/>
+        <child link="rear_left_wheel_hub"/>
         <axis xyz="0.0 0.0 1.0"/>
     </joint>
+
+    <xacro:if value="$(arg sim_gazebo)">
+        <xacro:macro_imu_gazebo name="rear_left_wheel_imu" parent_link="rear_left_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_imu_gz name="rear_left_wheel_imu" parent_link="rear_left_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
 
     <xacro:skratch_wheel name="rear_left_wheel_one"/>
     <joint name="rear_left_wheel_one_joint" type="continuous">
         <origin xyz="0.0 0.04 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="rear_left_skratch_wheel_hub"/>
+        <parent link="rear_left_wheel_hub"/>
         <child link="rear_left_wheel_one"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
@@ -125,23 +148,30 @@
     <xacro:skratch_wheel name="rear_left_wheel_two"/>
     <joint name="rear_left_wheel_two_joint" type="continuous">
         <origin xyz="0.0 -0.04 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="rear_left_skratch_wheel_hub"/>
+        <parent link="rear_left_wheel_hub"/>
         <child link="rear_left_wheel_two"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
 
-    <xacro:skratch_wheel_hub name="rear_right_skratch_wheel_hub"/>
-    <joint name="rear_right_skratch_wheel_hub_joint" type="continuous">
+    <xacro:skratch_wheel_hub name="rear_right_wheel_hub"/>
+    <joint name="rear_right_wheel_hub_joint" type="continuous">
         <origin xyz="0.2 0.0 0.085" rpy="3.14 0.0 0.0"/>
-        <parent link="right_skratch_wheel_support"/>
-        <child link="rear_right_skratch_wheel_hub"/>
+        <parent link="right_wheel_support"/>
+        <child link="rear_right_wheel_hub"/>
         <axis xyz="0.0 0.0 1.0"/>
     </joint>
+
+    <xacro:if value="$(arg sim_gazebo)">
+        <xacro:macro_imu_gazebo name="rear_right_wheel_imu" parent_link="rear_right_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
+    <xacro:if value="$(arg sim_gz)">
+        <xacro:macro_imu_gz name="rear_right_wheel_imu" parent_link="rear_right_wheel_hub" namespace="${namespace}" />
+    </xacro:if>
 
     <xacro:skratch_wheel name="rear_right_wheel_one"/>
     <joint name="rear_right_wheel_one_joint" type="continuous">
         <origin xyz="0.0 0.04 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="rear_right_skratch_wheel_hub"/>
+        <parent link="rear_right_wheel_hub"/>
         <child link="rear_right_wheel_one"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
@@ -149,34 +179,33 @@
     <xacro:skratch_wheel name="rear_right_wheel_two"/>
     <joint name="rear_right_wheel_two_joint" type="continuous">
         <origin xyz="0.0 -0.04 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="rear_right_skratch_wheel_hub"/>
+        <parent link="rear_right_wheel_hub"/>
         <child link="rear_right_wheel_two"/>
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
 
-
-    <xacro:if value="$(arg sim_gazebo)">
-        <xacro:macro_ros2_control name="GazeboSystem" plugin="gazebo_ros2_control/GazeboSystem"/>
-        <gazebo>
-            <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-                <parameters>$(arg controllers)</parameters>
-                <ros>
-                    <namespace>${namespace}</namespace>
-                </ros>
-            </plugin>
-        </gazebo>
+  <xacro:if value="$(arg sim_gazebo)">
+    <xacro:macro_ros2_control name="GazeboSystem" plugin="gazebo_ros2_control/GazeboSystem"/>
+    <gazebo>
+      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <parameters>$(arg controllers)</parameters>
+        <ros>
+          <namespace>${namespace}</namespace>
+          </ros>
+        </plugin>
+      </gazebo>
     </xacro:if>
 
-    <xacro:if value="$(arg sim_gz)">
-        <xacro:macro_ros2_control name="IgnitionSystem" plugin="ign_ros2_control/IgnitionSystem"/>
-        <gazebo>
-            <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-                <parameters>$(arg controllers)</parameters>
-                <ros>
-                    <namespace>${namespace}</namespace>
-                </ros>
-            </plugin>
-        </gazebo>
+  <xacro:if value="$(arg sim_gz)">
+    <xacro:macro_ros2_control name="IgnitionSystem" plugin="ign_ros2_control/IgnitionSystem"/>
+    <gazebo>
+      <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(arg controllers)</parameters>
+        <ros>
+          <namespace>${namespace}</namespace>
+          </ros>
+        </plugin>
+      </gazebo>
     </xacro:if>
 
 </robot>
