@@ -61,10 +61,14 @@
         <state_interface name="velocity"/>
         </joint>
       <joint name="rear_left_wheel_one_joint">
+        <command_interface name="velocity"></command_interface>
+        <command_interface name="effort"></command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         </joint>
       <joint name="rear_left_wheel_two_joint">
+        <command_interface name="velocity"></command_interface>
+        <command_interface name="effort"></command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         </joint>
@@ -73,10 +77,14 @@
         <state_interface name="velocity"/>
         </joint>
       <joint name="rear_right_wheel_one_joint">
+        <command_interface name="velocity"></command_interface>
+        <command_interface name="effort"></command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         </joint>
       <joint name="rear_right_wheel_two_joint">
+        <command_interface name="velocity"></command_interface>
+        <command_interface name="effort"></command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         </joint>
@@ -85,10 +93,14 @@
         <state_interface name="velocity"/>
         </joint>
       <joint name="front_left_wheel_one_joint">
+        <command_interface name="velocity"></command_interface>
+        <command_interface name="effort"></command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         </joint>
       <joint name="front_left_wheel_two_joint">
+        <command_interface name="velocity"></command_interface>
+        <command_interface name="effort"></command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         </joint>
@@ -97,10 +109,14 @@
         <state_interface name="velocity"/>
         </joint>
       <joint name="front_right_wheel_one_joint">
+        <command_interface name="velocity"></command_interface>
+        <command_interface name="effort"></command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         </joint>
       <joint name="front_right_wheel_two_joint">
+        <command_interface name="velocity"></command_interface>
+        <command_interface name="effort"></command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         </joint>

@@ -184,28 +184,28 @@
         <axis xyz="0.0 1.0 0.0"/>
     </joint>
 
-    <xacro:if value="$(arg sim_gazebo)">
-        <xacro:macro_ros2_control name="GazeboSystem" plugin="gazebo_ros2_control/GazeboSystem"/>
-        <gazebo>
-            <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-                <parameters>$(arg controllers)</parameters>
-                <ros>
-                    <namespace>${namespace}</namespace>
-                </ros>
-            </plugin>
-        </gazebo>
+  <xacro:if value="$(arg sim_gazebo)">
+    <xacro:macro_ros2_control name="GazeboSystem" plugin="gazebo_ros2_control/GazeboSystem"/>
+    <gazebo>
+      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <parameters>$(arg controllers)</parameters>
+        <ros>
+          <namespace>${namespace}</namespace>
+          </ros>
+        </plugin>
+      </gazebo>
     </xacro:if>
 
-    <xacro:if value="$(arg sim_gz)">
-        <xacro:macro_ros2_control name="IgnitionSystem" plugin="ign_ros2_control/IgnitionSystem"/>
-        <gazebo>
-            <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-                <parameters>$(arg controllers)</parameters>
-                <ros>
-                    <namespace>${namespace}</namespace>
-                </ros>
-            </plugin>
-        </gazebo>
+  <xacro:if value="$(arg sim_gz)">
+    <xacro:macro_ros2_control name="IgnitionSystem" plugin="ign_ros2_control/IgnitionSystem"/>
+    <gazebo>
+      <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(arg controllers)</parameters>
+        <ros>
+          <namespace>${namespace}</namespace>
+          </ros>
+        </plugin>
+      </gazebo>
     </xacro:if>
 
 </robot>
